@@ -1,4 +1,6 @@
+#pragma once
 #include <cuda_runtime.h>
+#include "../util/goldilocks.cuh"
 
 __global__ void dense_mv_kernel(int N, const uint64_t* A, const uint64_t* x, uint64_t* y) {
     int row = blockDim.x * blockIdx.x + threadIdx.x;

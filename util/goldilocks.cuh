@@ -28,18 +28,14 @@ __device__ __forceinline__ uint64_t goldilocks_add(uint64_t a, uint64_t b) {
     return (uint64_t)res;
 }
 
-__global__ void dense_mv_kernel(int N, const uint64_t* A, const uint64_t* x, uint64_t* y) {
-    int row = blockDim.x * blockIdx.x + threadIdx.x;
-    if (row < N) {
-        uint64_t sum = 0;
-        for (int col = 0; col < N; col++) {
-            uint64_t val = A[row * N + col];
-            if (val != 0) {
-                sum = goldilocks_add(sum, goldilocks_mul(val, x[col]));
-            }
-        }
-        y[row] = sum;
-    }
+__device__ __forceinline__ void atomicAddGoldilocks(uint64_t* address, uint64_t val) {
+    unsigned long long* address_as_ull = (unsigned long long*)address;
+    unsigned long long old = *address_as_ull, assumed;
+    do {
+        assumed = old;
+        uint64_t sum = goldilocks_add((uint64_t)assumed, val);
+        old = atomicCAS(address_as_ull, assumed, (unsigned long long)sum);
+    } while (assumed != old);
 }
 
 __global__ void changeMatrix(int N, uint64_t* A, const int row, const int col, uint64_t change) {

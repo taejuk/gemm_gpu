@@ -1,5 +1,11 @@
+#pragma once
 #include <cuda_runtime.h>
-// util에서 불러오기
+#include <device_launch_parameters.h>
+#include "../util/goldilocks.cuh"
+
+#ifndef WARP_SIZE
+#define WARP_SIZE 32
+#endif
 
 __global__ void spmv_csr_vector_kernel(int num_rows, 
                                        const int* row_ptr, 
