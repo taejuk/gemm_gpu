@@ -93,15 +93,20 @@ int main(int argc, char* argv[]) {
     //generate_updates(N, num_updates, updates);
 
     // update하는 로직 추가 -> 하나씩 바뀔때로 구해보자
+    int blockSize = 256;
+    int num_warps = N;
+    int warps_per_block = blockSize / WARP_SIZE;
+    int grid_size = (num_warps + warps_per_block - 1) / warps_per_block;
+
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start); cudaEventCreate(&stop);
-
+    
     cudaEventRecord(start);
     cudaMemcpy(d_A_dense, h_A_dense.data(), N * N * sizeof(uint64_t), cudaMemcpyHostToDevice);
-    int blockSize = 256;
-    int numBlocks = (N + blockSize - 1) / blockSize;
-    dense_mv_kernel<<<numBlocks, blockSize>>>(N, d_A_dense, d_x, d_y_dense);
+    //int blockSize = 256;
+    //int numBlocks = (N + blockSize - 1) / blockSize;
+    dense_mv_vector_kernel<<<grid_size, blockSize>>>(N, d_A_dense, d_x, d_y_dense);
 
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
@@ -114,9 +119,9 @@ int main(int argc, char* argv[]) {
     cudaMemcpy(d_csr_col_ind, h_csr_col_ind.data(), nnz_target * sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(d_csr_vals, h_csr_vals.data(), nnz_target * sizeof(uint64_t), cudaMemcpyHostToDevice);
 
-    int num_warps = N;
-    int warps_per_block = blockSize / WARP_SIZE;
-    int grid_size = (num_warps + warps_per_block - 1) / warps_per_block;
+    //int num_warps = N;
+    //int warps_per_block = blockSize / WARP_SIZE;
+    //int grid_size = (num_warps + warps_per_block - 1) / warps_per_block;
 
     spmv_csr_vector_kernel<<<grid_size, blockSize>>>(N, d_csr_row_ptr, d_csr_col_ind, d_csr_vals, d_x, d_y_sparse);
     cudaEventRecord(stop);
