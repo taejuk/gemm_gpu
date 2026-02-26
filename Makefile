@@ -3,7 +3,7 @@ NVCC = nvcc
 NVCC_FLAGS = -O3 -std=c++17 -I.
 
 
-SRCS = spmv_experiment.cu memory_coalescing_test.cu
+SRCS = spmv_experiment.cu memory_coalescing_test.cu update_test.cu
 
 EXECS = $(SRCS:.cu=)
 
