@@ -1,0 +1,1007 @@
+// --------------------- FileHeader --------------------------
+	// All file header info is kept as is (unless offset/size attributes)
+	// The original header flags is not complete, thus discarded. 
+	// 	.headerflags	@"EF_CUDA_TEXMODE_UNIFIED EF_CUDA_64BIT_ADDRESS EF_CUDA_SM70 EF_CUDA_VIRTUAL_SM(EF_CUDA_SM70)"
+	// 	.elftype	@"ET_EXEC"
+	// 
+	// 
+	.__elf_ident_osabi      51
+	.__elf_ident_abiversion 7
+	.__elf_type             ET_EXEC
+	.__elf_machine          EM_CUDA
+	.__elf_version          126 		// CUDA toolkit version 
+	.__elf_entry            0 		// entry point address 
+	.__elf_phoff            0x1440 		// program header offset, maybe updated by assembler
+	.__elf_shoff            0x1080 		// section header offset, maybe updated by assembler
+	.__elf_flags            0x460546 		// Flags, SM_70(0x46), COMPUTE_70(0x46) 
+	.__elf_ehsize           64 		// elf header size 
+	.__elf_phentsize        56 		// program entry size
+	.__elf_phnum            3 		// number of program entries
+	.__elf_shentsize        64 		// section entry size
+	.__elf_shnum            15 		// number of sections, currently no sections can be appended/removed
+	.__elf_shstrndx         1 		// Section name string table index 
+
+
+  //-------------------------------------------------
+  //------------ END of FileHeader ------------------
+  //-------------------------------------------------
+
+
+
+// ---------------------                                  --------------------------
+	// there will always be an empty section at index 0
+	.section  "", 0, SHT_NULL
+	.__section_name         0x0 	// offset in .shstrtab
+	.__section_type         SHT_NULL
+	.__section_flags        0x0
+	.__section_addr         0x0
+	.__section_offset       0x0 	// maybe updated by assembler
+	.__section_size         0x0 	// maybe updated by assembler
+	.__section_link         0
+	.__section_info         0x0
+	.__section_entsize      0
+	.align                0 	// equivalent to set sh_addralign
+
+// --------------------- .shstrtab                        --------------------------
+	.section  ".shstrtab", 0, SHT_STRTAB
+	// all strings in .shstrtab section will be kept as is.
+	.__section_name         0x1 	// offset in .shstrtab
+	.__section_type         SHT_STRTAB
+	.__section_flags        0x0
+	.__section_addr         0x0
+	.__section_offset       0x40 	// maybe updated by assembler
+	.__section_size         0x1ec 	// maybe updated by assembler
+	.__section_link         0
+	.__section_info         0x0
+	.__section_entsize      0
+	.align                1 	// equivalent to set sh_addralign
+    // .shstrtab[0] = b'\x00' 
+    /*0000*/ .byte 0x00
+
+    // .shstrtab[1] = b'.shstrtab\x00' 
+    /*0001*/ .byte 0x2e, 0x73, 0x68, 0x73, 0x74, 0x72, 0x74, 0x61
+    /*0009*/ .byte 0x62, 0x00
+
+    // .shstrtab[2] = b'.strtab\x00' 
+    /*000b*/ .byte 0x2e, 0x73, 0x74, 0x72, 0x74, 0x61, 0x62, 0x00
+
+    // .shstrtab[3] = b'.symtab\x00' 
+    /*0013*/ .byte 0x2e, 0x73, 0x79, 0x6d, 0x74, 0x61, 0x62, 0x00
+
+    // .shstrtab[4] = b'.symtab_shndx\x00' 
+    /*001b*/ .byte 0x2e, 0x73, 0x79, 0x6d, 0x74, 0x61, 0x62, 0x5f
+    /*0023*/ .byte 0x73, 0x68, 0x6e, 0x64, 0x78, 0x00
+
+    // .shstrtab[5] = b'.nv.info\x00' 
+    /*0029*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x69, 0x6e, 0x66, 0x6f
+    /*0031*/ .byte 0x00
+
+    // .shstrtab[6] = b'.text._Z15conflict_kernelPf\x00' 
+    /*0032*/ .byte 0x2e, 0x74, 0x65, 0x78, 0x74, 0x2e, 0x5f, 0x5a
+    /*003a*/ .byte 0x31, 0x35, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69
+    /*0042*/ .byte 0x63, 0x74, 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65
+    /*004a*/ .byte 0x6c, 0x50, 0x66, 0x00
+
+    // .shstrtab[7] = b'.nv.info._Z15conflict_kernelPf\x00' 
+    /*004e*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x69, 0x6e, 0x66, 0x6f
+    /*0056*/ .byte 0x2e, 0x5f, 0x5a, 0x31, 0x35, 0x63, 0x6f, 0x6e
+    /*005e*/ .byte 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b, 0x65
+    /*0066*/ .byte 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .shstrtab[8] = b'.nv.shared._Z15conflict_kernelPf\x00' 
+    /*006d*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x73, 0x68, 0x61, 0x72
+    /*0075*/ .byte 0x65, 0x64, 0x2e, 0x5f, 0x5a, 0x31, 0x35, 0x63
+    /*007d*/ .byte 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f
+    /*0085*/ .byte 0x6b, 0x65, 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66
+    /*008d*/ .byte 0x00
+
+    // .shstrtab[9] = b'.nv.constant0._Z15conflict_kernelPf\x00' 
+    /*008e*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x63, 0x6f, 0x6e, 0x73
+    /*0096*/ .byte 0x74, 0x61, 0x6e, 0x74, 0x30, 0x2e, 0x5f, 0x5a
+    /*009e*/ .byte 0x31, 0x35, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69
+    /*00a6*/ .byte 0x63, 0x74, 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65
+    /*00ae*/ .byte 0x6c, 0x50, 0x66, 0x00
+
+    // .shstrtab[10] = b'.rel.nv.constant0._Z15conflict_kernelPf\x00' 
+    /*00b2*/ .byte 0x2e, 0x72, 0x65, 0x6c, 0x2e, 0x6e, 0x76, 0x2e
+    /*00ba*/ .byte 0x63, 0x6f, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x74
+    /*00c2*/ .byte 0x30, 0x2e, 0x5f, 0x5a, 0x31, 0x35, 0x63, 0x6f
+    /*00ca*/ .byte 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b
+    /*00d2*/ .byte 0x65, 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .shstrtab[11] = b'.text._Z18no_conflict_kernelPf\x00' 
+    /*00da*/ .byte 0x2e, 0x74, 0x65, 0x78, 0x74, 0x2e, 0x5f, 0x5a
+    /*00e2*/ .byte 0x31, 0x38, 0x6e, 0x6f, 0x5f, 0x63, 0x6f, 0x6e
+    /*00ea*/ .byte 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b, 0x65
+    /*00f2*/ .byte 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .shstrtab[12] = b'.nv.info._Z18no_conflict_kernelPf\x00' 
+    /*00f9*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x69, 0x6e, 0x66, 0x6f
+    /*0101*/ .byte 0x2e, 0x5f, 0x5a, 0x31, 0x38, 0x6e, 0x6f, 0x5f
+    /*0109*/ .byte 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74
+    /*0111*/ .byte 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65, 0x6c, 0x50
+    /*0119*/ .byte 0x66, 0x00
+
+    // .shstrtab[13] = b'.nv.shared._Z18no_conflict_kernelPf\x00' 
+    /*011b*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x73, 0x68, 0x61, 0x72
+    /*0123*/ .byte 0x65, 0x64, 0x2e, 0x5f, 0x5a, 0x31, 0x38, 0x6e
+    /*012b*/ .byte 0x6f, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69
+    /*0133*/ .byte 0x63, 0x74, 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65
+    /*013b*/ .byte 0x6c, 0x50, 0x66, 0x00
+
+    // .shstrtab[14] = b'.nv.constant0._Z18no_conflict_kernelPf\x00' 
+    /*013f*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x63, 0x6f, 0x6e, 0x73
+    /*0147*/ .byte 0x74, 0x61, 0x6e, 0x74, 0x30, 0x2e, 0x5f, 0x5a
+    /*014f*/ .byte 0x31, 0x38, 0x6e, 0x6f, 0x5f, 0x63, 0x6f, 0x6e
+    /*0157*/ .byte 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b, 0x65
+    /*015f*/ .byte 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .shstrtab[15] = b'.rel.nv.constant0._Z18no_conflict_kernelPf\x00' 
+    /*0166*/ .byte 0x2e, 0x72, 0x65, 0x6c, 0x2e, 0x6e, 0x76, 0x2e
+    /*016e*/ .byte 0x63, 0x6f, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x74
+    /*0176*/ .byte 0x30, 0x2e, 0x5f, 0x5a, 0x31, 0x38, 0x6e, 0x6f
+    /*017e*/ .byte 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63
+    /*0186*/ .byte 0x74, 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65, 0x6c
+    /*018e*/ .byte 0x50, 0x66, 0x00
+
+    // .shstrtab[16] = b'.debug_frame\x00' 
+    /*0191*/ .byte 0x2e, 0x64, 0x65, 0x62, 0x75, 0x67, 0x5f, 0x66
+    /*0199*/ .byte 0x72, 0x61, 0x6d, 0x65, 0x00
+
+    // .shstrtab[17] = b'.rel.debug_frame\x00' 
+    /*019e*/ .byte 0x2e, 0x72, 0x65, 0x6c, 0x2e, 0x64, 0x65, 0x62
+    /*01a6*/ .byte 0x75, 0x67, 0x5f, 0x66, 0x72, 0x61, 0x6d, 0x65
+    /*01ae*/ .byte 0x00
+
+    // .shstrtab[18] = b'.rela.debug_frame\x00' 
+    /*01af*/ .byte 0x2e, 0x72, 0x65, 0x6c, 0x61, 0x2e, 0x64, 0x65
+    /*01b7*/ .byte 0x62, 0x75, 0x67, 0x5f, 0x66, 0x72, 0x61, 0x6d
+    /*01bf*/ .byte 0x65, 0x00
+
+    // .shstrtab[19] = b'.nv.callgraph\x00' 
+    /*01c1*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x63, 0x61, 0x6c, 0x6c
+    /*01c9*/ .byte 0x67, 0x72, 0x61, 0x70, 0x68, 0x00
+
+    // .shstrtab[20] = b'.nv.prototype\x00' 
+    /*01cf*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x70, 0x72, 0x6f, 0x74
+    /*01d7*/ .byte 0x6f, 0x74, 0x79, 0x70, 0x65, 0x00
+
+    // .shstrtab[21] = b'.nv.rel.action\x00' 
+    /*01dd*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x72, 0x65, 0x6c, 0x2e
+    /*01e5*/ .byte 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x00
+
+
+// --------------------- .strtab                          --------------------------
+	.section  ".strtab", 0, SHT_STRTAB
+	// all strings in .strtab section will be kept as is.
+	.__section_name         0xb 	// offset in .shstrtab
+	.__section_type         SHT_STRTAB
+	.__section_flags        0x0
+	.__section_addr         0x0
+	.__section_offset       0x22c 	// maybe updated by assembler
+	.__section_size         0x21b 	// maybe updated by assembler
+	.__section_link         0
+	.__section_info         0x0
+	.__section_entsize      0
+	.align                1 	// equivalent to set sh_addralign
+    // .strtab[0] = b'\x00' 
+    /*0000*/ .byte 0x00
+
+    // .strtab[1] = b'.shstrtab\x00' 
+    /*0001*/ .byte 0x2e, 0x73, 0x68, 0x73, 0x74, 0x72, 0x74, 0x61
+    /*0009*/ .byte 0x62, 0x00
+
+    // .strtab[2] = b'.strtab\x00' 
+    /*000b*/ .byte 0x2e, 0x73, 0x74, 0x72, 0x74, 0x61, 0x62, 0x00
+
+    // .strtab[3] = b'.symtab\x00' 
+    /*0013*/ .byte 0x2e, 0x73, 0x79, 0x6d, 0x74, 0x61, 0x62, 0x00
+
+    // .strtab[4] = b'.symtab_shndx\x00' 
+    /*001b*/ .byte 0x2e, 0x73, 0x79, 0x6d, 0x74, 0x61, 0x62, 0x5f
+    /*0023*/ .byte 0x73, 0x68, 0x6e, 0x64, 0x78, 0x00
+
+    // .strtab[5] = b'.nv.info\x00' 
+    /*0029*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x69, 0x6e, 0x66, 0x6f
+    /*0031*/ .byte 0x00
+
+    // .strtab[6] = b'.text._Z15conflict_kernelPf\x00' 
+    /*0032*/ .byte 0x2e, 0x74, 0x65, 0x78, 0x74, 0x2e, 0x5f, 0x5a
+    /*003a*/ .byte 0x31, 0x35, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69
+    /*0042*/ .byte 0x63, 0x74, 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65
+    /*004a*/ .byte 0x6c, 0x50, 0x66, 0x00
+
+    // .strtab[7] = b'.nv.info._Z15conflict_kernelPf\x00' 
+    /*004e*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x69, 0x6e, 0x66, 0x6f
+    /*0056*/ .byte 0x2e, 0x5f, 0x5a, 0x31, 0x35, 0x63, 0x6f, 0x6e
+    /*005e*/ .byte 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b, 0x65
+    /*0066*/ .byte 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .strtab[8] = b'.nv.shared._Z15conflict_kernelPf\x00' 
+    /*006d*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x73, 0x68, 0x61, 0x72
+    /*0075*/ .byte 0x65, 0x64, 0x2e, 0x5f, 0x5a, 0x31, 0x35, 0x63
+    /*007d*/ .byte 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f
+    /*0085*/ .byte 0x6b, 0x65, 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66
+    /*008d*/ .byte 0x00
+
+    // .strtab[9] = b'.rel.nv.constant0._Z15conflict_kernelPf\x00' 
+    /*008e*/ .byte 0x2e, 0x72, 0x65, 0x6c, 0x2e, 0x6e, 0x76, 0x2e
+    /*0096*/ .byte 0x63, 0x6f, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x74
+    /*009e*/ .byte 0x30, 0x2e, 0x5f, 0x5a, 0x31, 0x35, 0x63, 0x6f
+    /*00a6*/ .byte 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b
+    /*00ae*/ .byte 0x65, 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .strtab[10] = b'.nv.constant0._Z15conflict_kernelPf\x00' 
+    /*00b6*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x63, 0x6f, 0x6e, 0x73
+    /*00be*/ .byte 0x74, 0x61, 0x6e, 0x74, 0x30, 0x2e, 0x5f, 0x5a
+    /*00c6*/ .byte 0x31, 0x35, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69
+    /*00ce*/ .byte 0x63, 0x74, 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65
+    /*00d6*/ .byte 0x6c, 0x50, 0x66, 0x00
+
+    // .strtab[11] = b'.text._Z18no_conflict_kernelPf\x00' 
+    /*00da*/ .byte 0x2e, 0x74, 0x65, 0x78, 0x74, 0x2e, 0x5f, 0x5a
+    /*00e2*/ .byte 0x31, 0x38, 0x6e, 0x6f, 0x5f, 0x63, 0x6f, 0x6e
+    /*00ea*/ .byte 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b, 0x65
+    /*00f2*/ .byte 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .strtab[12] = b'.nv.info._Z18no_conflict_kernelPf\x00' 
+    /*00f9*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x69, 0x6e, 0x66, 0x6f
+    /*0101*/ .byte 0x2e, 0x5f, 0x5a, 0x31, 0x38, 0x6e, 0x6f, 0x5f
+    /*0109*/ .byte 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74
+    /*0111*/ .byte 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65, 0x6c, 0x50
+    /*0119*/ .byte 0x66, 0x00
+
+    // .strtab[13] = b'.nv.shared._Z18no_conflict_kernelPf\x00' 
+    /*011b*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x73, 0x68, 0x61, 0x72
+    /*0123*/ .byte 0x65, 0x64, 0x2e, 0x5f, 0x5a, 0x31, 0x38, 0x6e
+    /*012b*/ .byte 0x6f, 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69
+    /*0133*/ .byte 0x63, 0x74, 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65
+    /*013b*/ .byte 0x6c, 0x50, 0x66, 0x00
+
+    // .strtab[14] = b'.rel.nv.constant0._Z18no_conflict_kernelPf\x00' 
+    /*013f*/ .byte 0x2e, 0x72, 0x65, 0x6c, 0x2e, 0x6e, 0x76, 0x2e
+    /*0147*/ .byte 0x63, 0x6f, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x74
+    /*014f*/ .byte 0x30, 0x2e, 0x5f, 0x5a, 0x31, 0x38, 0x6e, 0x6f
+    /*0157*/ .byte 0x5f, 0x63, 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63
+    /*015f*/ .byte 0x74, 0x5f, 0x6b, 0x65, 0x72, 0x6e, 0x65, 0x6c
+    /*0167*/ .byte 0x50, 0x66, 0x00
+
+    // .strtab[15] = b'.nv.constant0._Z18no_conflict_kernelPf\x00' 
+    /*016a*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x63, 0x6f, 0x6e, 0x73
+    /*0172*/ .byte 0x74, 0x61, 0x6e, 0x74, 0x30, 0x2e, 0x5f, 0x5a
+    /*017a*/ .byte 0x31, 0x38, 0x6e, 0x6f, 0x5f, 0x63, 0x6f, 0x6e
+    /*0182*/ .byte 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b, 0x65
+    /*018a*/ .byte 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .strtab[16] = b'.debug_frame\x00' 
+    /*0191*/ .byte 0x2e, 0x64, 0x65, 0x62, 0x75, 0x67, 0x5f, 0x66
+    /*0199*/ .byte 0x72, 0x61, 0x6d, 0x65, 0x00
+
+    // .strtab[17] = b'.rel.debug_frame\x00' 
+    /*019e*/ .byte 0x2e, 0x72, 0x65, 0x6c, 0x2e, 0x64, 0x65, 0x62
+    /*01a6*/ .byte 0x75, 0x67, 0x5f, 0x66, 0x72, 0x61, 0x6d, 0x65
+    /*01ae*/ .byte 0x00
+
+    // .strtab[18] = b'.rela.debug_frame\x00' 
+    /*01af*/ .byte 0x2e, 0x72, 0x65, 0x6c, 0x61, 0x2e, 0x64, 0x65
+    /*01b7*/ .byte 0x62, 0x75, 0x67, 0x5f, 0x66, 0x72, 0x61, 0x6d
+    /*01bf*/ .byte 0x65, 0x00
+
+    // .strtab[19] = b'.nv.callgraph\x00' 
+    /*01c1*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x63, 0x61, 0x6c, 0x6c
+    /*01c9*/ .byte 0x67, 0x72, 0x61, 0x70, 0x68, 0x00
+
+    // .strtab[20] = b'.nv.prototype\x00' 
+    /*01cf*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x70, 0x72, 0x6f, 0x74
+    /*01d7*/ .byte 0x6f, 0x74, 0x79, 0x70, 0x65, 0x00
+
+    // .strtab[21] = b'.nv.rel.action\x00' 
+    /*01dd*/ .byte 0x2e, 0x6e, 0x76, 0x2e, 0x72, 0x65, 0x6c, 0x2e
+    /*01e5*/ .byte 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x00
+
+    // .strtab[22] = b'_Z15conflict_kernelPf\x00' 
+    /*01ec*/ .byte 0x5f, 0x5a, 0x31, 0x35, 0x63, 0x6f, 0x6e, 0x66
+    /*01f4*/ .byte 0x6c, 0x69, 0x63, 0x74, 0x5f, 0x6b, 0x65, 0x72
+    /*01fc*/ .byte 0x6e, 0x65, 0x6c, 0x50, 0x66, 0x00
+
+    // .strtab[23] = b'_Z18no_conflict_kernelPf\x00' 
+    /*0202*/ .byte 0x5f, 0x5a, 0x31, 0x38, 0x6e, 0x6f, 0x5f, 0x63
+    /*020a*/ .byte 0x6f, 0x6e, 0x66, 0x6c, 0x69, 0x63, 0x74, 0x5f
+    /*0212*/ .byte 0x6b, 0x65, 0x72, 0x6e, 0x65, 0x6c, 0x50, 0x66
+    /*021a*/ .byte 0x00
+
+
+// --------------------- .symtab                          --------------------------
+	.section  ".symtab", 0, SHT_SYMTAB
+	// all symbols in .symtab sections will be kept
+	// but the symbol size may be changed accordingly
+	.__section_name         0x13 	// offset in .shstrtab
+	.__section_type         SHT_SYMTAB
+	.__section_flags        0x0
+	.__section_addr         0x0
+	.__section_offset       0x448 	// maybe updated by assembler
+	.__section_size         0xf0 	// maybe updated by assembler
+	.__section_link         2
+	.__section_info         0x8
+	.__section_entsize      24
+	.align                8 	// equivalent to set sh_addralign
+    // Symbol[0] "": Container({'st_name': 0, 'st_info': Container({'bind': 'STB_LOCAL', 'type': 'STT_NOTYPE'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 'SHN_UNDEF', 'st_value': 0, 'st_size': 0})
+    /*0000*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*0008*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*0010*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[1] ".text._Z15conflict_kernelPf": Container({'st_name': 50, 'st_info': Container({'bind': 'STB_LOCAL', 'type': 'STT_SECTION'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 13, 'st_value': 0, 'st_size': 0})
+    /*0018*/ .byte 0x32, 0x00, 0x00, 0x00, 0x03, 0x00, 0x0d, 0x00
+    /*0020*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*0028*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[2] ".nv.constant0._Z15conflict_kernelPf": Container({'st_name': 182, 'st_info': Container({'bind': 'STB_LOCAL', 'type': 'STT_SECTION'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 11, 'st_value': 0, 'st_size': 0})
+    /*0030*/ .byte 0xb6, 0x00, 0x00, 0x00, 0x03, 0x00, 0x0b, 0x00
+    /*0038*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*0040*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[3] ".text._Z18no_conflict_kernelPf": Container({'st_name': 218, 'st_info': Container({'bind': 'STB_LOCAL', 'type': 'STT_SECTION'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 14, 'st_value': 0, 'st_size': 0})
+    /*0048*/ .byte 0xda, 0x00, 0x00, 0x00, 0x03, 0x00, 0x0e, 0x00
+    /*0050*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*0058*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[4] ".nv.constant0._Z18no_conflict_kernelPf": Container({'st_name': 362, 'st_info': Container({'bind': 'STB_LOCAL', 'type': 'STT_SECTION'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 12, 'st_value': 0, 'st_size': 0})
+    /*0060*/ .byte 0x6a, 0x01, 0x00, 0x00, 0x03, 0x00, 0x0c, 0x00
+    /*0068*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*0070*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[5] ".debug_frame": Container({'st_name': 401, 'st_info': Container({'bind': 'STB_LOCAL', 'type': 'STT_SECTION'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 4, 'st_value': 0, 'st_size': 0})
+    /*0078*/ .byte 0x91, 0x01, 0x00, 0x00, 0x03, 0x00, 0x04, 0x00
+    /*0080*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*0088*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[6] ".nv.callgraph": Container({'st_name': 449, 'st_info': Container({'bind': 'STB_LOCAL', 'type': 'STT_SECTION'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 8, 'st_value': 0, 'st_size': 0})
+    /*0090*/ .byte 0xc1, 0x01, 0x00, 0x00, 0x03, 0x00, 0x08, 0x00
+    /*0098*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*00a0*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[7] ".nv.rel.action": Container({'st_name': 477, 'st_info': Container({'bind': 'STB_LOCAL', 'type': 'STT_SECTION'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 9, 'st_value': 0, 'st_size': 0})
+    /*00a8*/ .byte 0xdd, 0x01, 0x00, 0x00, 0x03, 0x00, 0x09, 0x00
+    /*00b0*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*00b8*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[8] "_Z15conflict_kernelPf": Container({'st_name': 492, 'st_info': Container({'bind': 'STB_GLOBAL', 'type': 'STT_FUNC'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 13, 'st_value': 0, 'st_size': 768})
+    /*00c0*/ .byte 0xec, 0x01, 0x00, 0x00, 0x12, 0x10, 0x0d, 0x00
+    /*00c8*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*00d0*/ .byte 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+    // Symbol[9] "_Z18no_conflict_kernelPf": Container({'st_name': 514, 'st_info': Container({'bind': 'STB_GLOBAL', 'type': 'STT_FUNC'}), 'st_other': Container({'local': 0, 'visibility': 'STV_DEFAULT'}), 'st_shndx': 14, 'st_value': 0, 'st_size': 768})
+    /*00d8*/ .byte 0x02, 0x02, 0x00, 0x00, 0x12, 0x10, 0x0e, 0x00
+    /*00e0*/ .byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    /*00e8*/ .byte 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+
+
+// --------------------- .debug_frame                     --------------------------
+	.section	.debug_frame,"",@progbits
+	.__section_name         0x191 	// offset in .shstrtab
+	.__section_type         SHT_PROGBITS
+	.__section_flags        0x0
+	.__section_addr         0x0
+	.__section_offset       0x538 	// maybe updated by assembler
+	.__section_size         0xe0 	// maybe updated by assembler
+	.__section_link         0
+	.__section_info         0x0
+	.__section_entsize      0
+	.align                1 	// equivalent to set sh_addralign
+  .debug_frame:
+          /*0000*/ 	.byte	0xff, 0xff, 0xff, 0xff, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff
+          /*0010*/ 	.byte	0xff, 0xff, 0xff, 0xff, 0x03, 0x00, 0x04, 0x7c, 0xff, 0xff, 0xff, 0xff, 0x0f, 0x0c, 0x81, 0x80
+          /*0020*/ 	.byte	0x80, 0x28, 0x00, 0x08, 0xff, 0x81, 0x80, 0x28, 0x08, 0x81, 0x80, 0x80, 0x28, 0x00, 0x00, 0x00
+          /*0030*/ 	.byte	0xff, 0xff, 0xff, 0xff, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+          /*0040*/ 	.byte	0x00, 0x00, 0x00, 0x00
+          /*0044*/ 	.dword	_Z15conflict_kernelPf
+          /*004c*/ 	.byte	0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x04, 0x00, 0x00, 0x00, 0x04, 0x38, 0x00
+          /*005c*/ 	.byte	0x00, 0x00, 0x0c, 0x81, 0x80, 0x80, 0x28, 0x00, 0x04, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+          /*006c*/ 	.byte	0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+          /*007c*/ 	.byte	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x03, 0x00, 0x04, 0x7c, 0xff, 0xff, 0xff, 0xff
+          /*008c*/ 	.byte	0x0f, 0x0c, 0x81, 0x80, 0x80, 0x28, 0x00, 0x08, 0xff, 0x81, 0x80, 0x28, 0x08, 0x81, 0x80, 0x80
+          /*009c*/ 	.byte	0x28, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0x34, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+          /*00ac*/ 	.byte	0x70, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+          /*00b4*/ 	.dword	_Z18no_conflict_kernelPf
+          /*00bc*/ 	.byte	0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x04, 0x00, 0x00, 0x00, 0x04, 0x38, 0x00
+          /*00cc*/ 	.byte	0x00, 0x00, 0x0c, 0x81, 0x80, 0x80, 0x28, 0x00, 0x04, 0x60, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+          /*00dc*/ 	.byte	0x00, 0x00, 0x00, 0x00
+  
+  
+// --------------------- .nv.info                         --------------------------
+	.section	.nv.info,"",@"SHT_CUDA_INFO"
+	.__section_name         0x29 	// offset in .shstrtab
+	.__section_type         1879048192
+	.__section_flags        0x0
+	.__section_addr         0x0
+	.__section_offset       0x618 	// maybe updated by assembler
+	.__section_size         0x48 	// maybe updated by assembler
+	.__section_link         3
+	.__section_info         0x0
+	.__section_entsize      0
+	.align                4 	// equivalent to set sh_addralign
+  	.align	4
+  
+  
+  	//----- nvinfo : EIATTR_REGCOUNT
+  	.align		4
+          /*0000*/ 	.byte	0x04, 0x2f
+          /*0002*/ 	.short	(.L_1 - .L_0)
+  	.align		4
+  .L_0:
+          /*0004*/ 	.word	index@(_Z18no_conflict_kernelPf)
+          /*0008*/ 	.word	0x00000012
+  
+  
+  	//----- nvinfo : EIATTR_FRAME_SIZE
+  	.align		4
+  .L_1:
+          /*000c*/ 	.byte	0x04, 0x11
+          /*000e*/ 	.short	(.L_3 - .L_2)
+  	.align		4
+  .L_2:
+          /*0010*/ 	.word	index@(_Z18no_conflict_kernelPf)
+          /*0014*/ 	.word	0x00000000
+  
+  
+  	//----- nvinfo : EIATTR_REGCOUNT
+  	.align		4
+  .L_3:
+          /*0018*/ 	.byte	0x04, 0x2f
+          /*001a*/ 	.short	(.L_5 - .L_4)
+  	.align		4
+  .L_4:
+          /*001c*/ 	.word	index@(_Z15conflict_kernelPf)
+          /*0020*/ 	.word	0x00000012
+  
+  
+  	//----- nvinfo : EIATTR_FRAME_SIZE
+  	.align		4
+  .L_5:
+          /*0024*/ 	.byte	0x04, 0x11
+          /*0026*/ 	.short	(.L_7 - .L_6)
+  	.align		4
+  .L_6:
+          /*0028*/ 	.word	index@(_Z15conflict_kernelPf)
+          /*002c*/ 	.word	0x00000000
+  
+  
+  	//----- nvinfo : EIATTR_MIN_STACK_SIZE
+  	.align		4
+  .L_7:
+          /*0030*/ 	.byte	0x04, 0x12
+          /*0032*/ 	.short	(.L_9 - .L_8)
+  	.align		4
+  .L_8:
+          /*0034*/ 	.word	index@(_Z15conflict_kernelPf)
+          /*0038*/ 	.word	0x00000000
+  
+  
+  	//----- nvinfo : EIATTR_MIN_STACK_SIZE
+  	.align		4
+  .L_9:
+          /*003c*/ 	.byte	0x04, 0x12
+          /*003e*/ 	.short	(.L_11 - .L_10)
+  	.align		4
+  .L_10:
+          /*0040*/ 	.word	index@(_Z18no_conflict_kernelPf)
+          /*0044*/ 	.word	0x00000000
+  .L_11:
+  
+  
+// --------------------- .nv.info._Z15conflict_kernelPf   --------------------------
+	.section	.nv.info._Z15conflict_kernelPf,"",@"SHT_CUDA_INFO"
+	.__section_name         0x4e 	// offset in .shstrtab
+	.__section_type         1879048192
+	.__section_flags        0x40
+	.__section_addr         0x0
+	.__section_offset       0x660 	// maybe updated by assembler
+	.__section_size         0x48 	// maybe updated by assembler
+	.__section_link         3
+	.__section_info         0xd
+	.__section_entsize      0
+	.align                4 	// equivalent to set sh_addralign
+  	.sectionflags	@""
+  	.align	4
+  
+  
+  	//----- nvinfo : EIATTR_SW_WAR
+  	.align		4
+          /*0000*/ 	.byte	0x04, 0x36
+          /*0002*/ 	.short	(.L_13 - .L_12)
+  .L_12:
+          /*0004*/ 	.word	0x00000001
+  
+  
+  	//----- nvinfo : EIATTR_CUDA_API_VERSION
+  	.align		4
+  .L_13:
+          /*0008*/ 	.byte	0x04, 0x37
+          /*000a*/ 	.short	(.L_15 - .L_14)
+  .L_14:
+          /*000c*/ 	.word	0x0000007e
+  
+  
+  	//----- nvinfo : EIATTR_PARAM_CBANK
+  	.align		4
+  .L_15:
+          /*0010*/ 	.byte	0x04, 0x0a
+          /*0012*/ 	.short	(.L_17 - .L_16)
+  	.align		4
+  .L_16:
+          /*0014*/ 	.word	index@(.nv.constant0._Z15conflict_kernelPf)
+          /*0018*/ 	.short	0x0160
+          /*001a*/ 	.short	0x0008
+  
+  
+  	//----- nvinfo : EIATTR_CBANK_PARAM_SIZE
+  	.align		4
+  .L_17:
+          /*001c*/ 	.byte	0x03, 0x19
+          /*001e*/ 	.short	0x0008
+  
+  
+  	//----- nvinfo : EIATTR_KPARAM_INFO
+  	.align		4
+          /*0020*/ 	.byte	0x04, 0x17
+          /*0022*/ 	.short	(.L_19 - .L_18)
+  .L_18:
+          /*0024*/ 	.word	0x00000000
+          /*0028*/ 	.short	0x0000
+          /*002a*/ 	.short	0x0000
+          /*002c*/ 	.byte	0x00, 0xf0, 0x21, 0x00
+  
+  
+  	//----- nvinfo : EIATTR_MAXREG_COUNT
+  	.align		4
+  .L_19:
+          /*0030*/ 	.byte	0x03, 0x1b
+          /*0032*/ 	.short	0x00ff
+  
+  
+  	//----- nvinfo : EIATTR_INT_WARP_WIDE_INSTR_OFFSETS
+  	.align		4
+          /*0034*/ 	.byte	0x04, 0x31
+          /*0036*/ 	.short	(.L_21 - .L_20)
+  
+  
+  	//   ....[0]....
+  .L_20:
+          /*0038*/ 	.word	0x00000010
+  
+  
+  	//   ....[1]....
+          /*003c*/ 	.word	0x000000f0
+  
+  
+  	//----- nvinfo : EIATTR_EXIT_INSTR_OFFSETS
+  	.align		4
+  .L_21:
+          /*0040*/ 	.byte	0x04, 0x1c
+          /*0042*/ 	.short	(.L_23 - .L_22)
+  
+  
+  	//   ....[0]....
+  .L_22:
+          /*0044*/ 	.word	0x00000270
+  .L_23:
+  
+  
+// --------------------- .nv.info._Z18no_conflict_kernelPf --------------------------
+	.section	.nv.info._Z18no_conflict_kernelPf,"",@"SHT_CUDA_INFO"
+	.__section_name         0xf9 	// offset in .shstrtab
+	.__section_type         1879048192
+	.__section_flags        0x40
+	.__section_addr         0x0
+	.__section_offset       0x6a8 	// maybe updated by assembler
+	.__section_size         0x48 	// maybe updated by assembler
+	.__section_link         3
+	.__section_info         0xe
+	.__section_entsize      0
+	.align                4 	// equivalent to set sh_addralign
+  	.sectionflags	@""
+  	.align	4
+  
+  
+  	//----- nvinfo : EIATTR_SW_WAR
+  	.align		4
+          /*0000*/ 	.byte	0x04, 0x36
+          /*0002*/ 	.short	(.L_25 - .L_24)
+  .L_24:
+          /*0004*/ 	.word	0x00000001
+  
+  
+  	//----- nvinfo : EIATTR_CUDA_API_VERSION
+  	.align		4
+  .L_25:
+          /*0008*/ 	.byte	0x04, 0x37
+          /*000a*/ 	.short	(.L_27 - .L_26)
+  .L_26:
+          /*000c*/ 	.word	0x0000007e
+  
+  
+  	//----- nvinfo : EIATTR_PARAM_CBANK
+  	.align		4
+  .L_27:
+          /*0010*/ 	.byte	0x04, 0x0a
+          /*0012*/ 	.short	(.L_29 - .L_28)
+  	.align		4
+  .L_28:
+          /*0014*/ 	.word	index@(.nv.constant0._Z18no_conflict_kernelPf)
+          /*0018*/ 	.short	0x0160
+          /*001a*/ 	.short	0x0008
+  
+  
+  	//----- nvinfo : EIATTR_CBANK_PARAM_SIZE
+  	.align		4
+  .L_29:
+          /*001c*/ 	.byte	0x03, 0x19
+          /*001e*/ 	.short	0x0008
+  
+  
+  	//----- nvinfo : EIATTR_KPARAM_INFO
+  	.align		4
+          /*0020*/ 	.byte	0x04, 0x17
+          /*0022*/ 	.short	(.L_31 - .L_30)
+  .L_30:
+          /*0024*/ 	.word	0x00000000
+          /*0028*/ 	.short	0x0000
+          /*002a*/ 	.short	0x0000
+          /*002c*/ 	.byte	0x00, 0xf0, 0x21, 0x00
+  
+  
+  	//----- nvinfo : EIATTR_MAXREG_COUNT
+  	.align		4
+  .L_31:
+          /*0030*/ 	.byte	0x03, 0x1b
+          /*0032*/ 	.short	0x00ff
+  
+  
+  	//----- nvinfo : EIATTR_INT_WARP_WIDE_INSTR_OFFSETS
+  	.align		4
+          /*0034*/ 	.byte	0x04, 0x31
+          /*0036*/ 	.short	(.L_33 - .L_32)
+  
+  
+  	//   ....[0]....
+  .L_32:
+          /*0038*/ 	.word	0x00000010
+  
+  
+  	//   ....[1]....
+          /*003c*/ 	.word	0x000000f0
+  
+  
+  	//----- nvinfo : EIATTR_EXIT_INSTR_OFFSETS
+  	.align		4
+  .L_33:
+          /*0040*/ 	.byte	0x04, 0x1c
+          /*0042*/ 	.short	(.L_35 - .L_34)
+  
+  
+  	//   ....[0]....
+  .L_34:
+          /*0044*/ 	.word	0x00000270
+  .L_35:
+  
+  
+// --------------------- .nv.callgraph                    --------------------------
+	.section	.nv.callgraph,"",@"SHT_CUDA_CALLGRAPH"
+	.__section_name         0x1c1 	// offset in .shstrtab
+	.__section_type         1879048193
+	.__section_flags        0x0
+	.__section_addr         0x0
+	.__section_offset       0x6f0 	// maybe updated by assembler
+	.__section_size         0x20 	// maybe updated by assembler
+	.__section_link         3
+	.__section_info         0x0
+	.__section_entsize      8
+	.align                4 	// equivalent to set sh_addralign
+  	.align	4
+  	.sectionentsize	8
+  	.align		4
+          /*0000*/ 	.word	0x00000000
+  	.align		4
+          /*0004*/ 	.word	0xffffffff
+  	.align		4
+          /*0008*/ 	.word	0x00000000
+  	.align		4
+          /*000c*/ 	.word	0xfffffffe
+  	.align		4
+          /*0010*/ 	.word	0x00000000
+  	.align		4
+          /*0014*/ 	.word	0xfffffffd
+  	.align		4
+          /*0018*/ 	.word	0x00000000
+  	.align		4
+          /*001c*/ 	.word	0xfffffffc
+  
+  
+// --------------------- .nv.rel.action                   --------------------------
+	.section	.nv.rel.action,"",@"SHT_CUDA_RELOCINFO"
+	.__section_name         0x1dd 	// offset in .shstrtab
+	.__section_type         1879048203
+	.__section_flags        0x0
+	.__section_addr         0x0
+	.__section_offset       0x710 	// maybe updated by assembler
+	.__section_size         0x10 	// maybe updated by assembler
+	.__section_link         0
+	.__section_info         0x0
+	.__section_entsize      8
+	.align                8 	// equivalent to set sh_addralign
+  	.align	8
+  	.sectionentsize	8
+          /*0000*/ 	.byte	0x73, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x11, 0x25, 0x00, 0x05, 0x36
+  
+  
+// --------------------- .rel.debug_frame                 --------------------------
+	.section  ".rel.debug_frame", 64, SHT_REL
+	// all relocation sections will be dynamically generated by assembler 
+	// but most of the section header will be kept as is.
+	.__section_name         0x19e 	// offset in .shstrtab
+	.__section_type         SHT_REL
+	.__section_flags        0x40
+	.__section_addr         0x0
+	.__section_offset       0x720 	// maybe updated by assembler
+	.__section_size         0x20 	// maybe updated by assembler
+	.__section_link         3
+	.__section_info         0x4
+	.__section_entsize      16
+	.align                8 	// equivalent to set sh_addralign
+    // Relocation[0] : _Z18no_conflict_kernelPf, Container({'r_offset': 180, 'r_info': 38654705666, 'r_info_sym': 9, 'r_info_type': 2})
+    // Relocation[1] : _Z15conflict_kernelPf, Container({'r_offset': 68, 'r_info': 34359738370, 'r_info_sym': 8, 'r_info_type': 2})
+
+// --------------------- .nv.constant0._Z15conflict_kernelPf --------------------------
+	.section	.nv.constant0._Z15conflict_kernelPf,"a",@progbits
+	.__section_name         0x8e 	// offset in .shstrtab
+	.__section_type         SHT_PROGBITS
+	.__section_flags        0x42
+	.__section_addr         0x0
+	.__section_offset       0x740 	// maybe updated by assembler
+	.__section_size         0x168 	// maybe updated by assembler
+	.__section_link         0
+	.__section_info         0xd
+	.__section_entsize      0
+	.align                4 	// equivalent to set sh_addralign
+  	.sectionflags	@""
+  	.align	4
+  .nv.constant0._Z15conflict_kernelPf:
+  	.zero		360
+  
+  
+// --------------------- .nv.constant0._Z18no_conflict_kernelPf --------------------------
+	.section	.nv.constant0._Z18no_conflict_kernelPf,"a",@progbits
+	.__section_name         0x13f 	// offset in .shstrtab
+	.__section_type         SHT_PROGBITS
+	.__section_flags        0x42
+	.__section_addr         0x0
+	.__section_offset       0x8a8 	// maybe updated by assembler
+	.__section_size         0x168 	// maybe updated by assembler
+	.__section_link         0
+	.__section_info         0xe
+	.__section_entsize      0
+	.align                4 	// equivalent to set sh_addralign
+  	.sectionflags	@""
+  	.align	4
+  .nv.constant0._Z18no_conflict_kernelPf:
+  	.zero		360
+  
+  
+// --------------------- .text._Z15conflict_kernelPf      --------------------------
+	.section	.text._Z15conflict_kernelPf,"ax",@progbits
+	.__section_name         0x32 	// offset in .shstrtab
+	.__section_type         SHT_PROGBITS
+	.__section_flags        0x6
+	.__section_addr         0x0
+	.__section_offset       0xa80 	// maybe updated by assembler
+	.__section_size         0x300 	// maybe updated by assembler
+	.__section_link         3
+	.__section_info         0x12000008
+	.__section_entsize      0
+	.align                128 	// equivalent to set sh_addralign
+  	.sectioninfo	@"SHI_REGISTERS=40"
+  	.align	128
+          .global         _Z15conflict_kernelPf
+          .type           _Z15conflict_kernelPf,@function
+          .size           _Z15conflict_kernelPf,(.L_x_4 - _Z15conflict_kernelPf)
+          .other          _Z15conflict_kernelPf,@"STO_CUDA_ENTRY STV_DEFAULT"
+  _Z15conflict_kernelPf:
+  .text._Z15conflict_kernelPf:
+      [B------:R-:W-:-:S02]         /*0000*/                   MOV R1, c[0x0][0x28] ;
+  .CUASM_OFFSET_LABEL._Z15conflict_kernelPf.EIATTR_INT_WARP_WIDE_INSTR_OFFSETS.#:
+      [B------:R-:W-:-:S01]         /*0010*/              @!PT SHFL.IDX PT, RZ, RZ, RZ, RZ ;
+      [B------:R-:W0:-:S01]         /*0020*/                   S2R R15, SR_TID.X ;
+      [B------:R-:W-:-:S01]         /*0030*/                   CS2R R10, SRZ ;
+      [B------:R-:W-:-:S01]         /*0040*/                   CS2R R12, SRZ ;
+      [B------:R-:W-:-:S01]         /*0050*/                   MOV R14, RZ ;
+      [B0-----:R-:W0:-:S02]         /*0060*/                   I2F.U32 R0, R15 ;
+      [B0-----:R-:W-:-:S02]         /*0070*/                   FMUL R2, R0.reuse, 0.0010000000474974513054 ;
+      [B------:R-:W-:-:S02]         /*0080*/                   FMUL R3, R0.reuse, 0.0020000000949949026108 ;
+      [B------:R-:W-:Y:S02]         /*0090*/                   FMUL R4, R0, 0.0030000000260770320892 ;
+      [B------:R-:W-:-:S02]         /*00a0*/                   FMUL R5, R0.reuse, 0.0040000001899898052216 ;
+      [B------:R-:W-:-:S02]         /*00b0*/                   FMUL R6, R0.reuse, 0.0049999998882412910461 ;
+      [B------:R-:W-:-:S02]         /*00c0*/                   FMUL R7, R0.reuse, 0.0060000000521540641785 ;
+      [B------:R-:W-:-:S02]         /*00d0*/                   FMUL R8, R0.reuse, 0.0070000002160668373108 ;
+      [B------:R-:W-:-:S02]         /*00e0*/                   FMUL R9, R0, 0.0080000003799796104431 ;
+  .L_x_0:
+  .CUASM_OFFSET_LABEL._Z15conflict_kernelPf.EIATTR_INT_WARP_WIDE_INSTR_OFFSETS.#:
+      [B------:R-:W-:-:S01]         /*00f0*/              @!PT SHFL.IDX PT, RZ, RZ, RZ, RZ ;
+      [B------:R-:W-:-:S01]         /*0100*/                   IADD3 R11, R11, 0x1, RZ ;
+      [B------:R-:W-:-:S02]         /*0110*/                   FFMA R28, R20, R24, R28 ;
+      [B------:R-:W-:-:S01]         /*0120*/                   FFMA R29, R21, R25, R29 ;
+      [B------:R-:W-:-:S01]         /*0130*/                   ISETP.NE.AND P0, PT, R11, 0xf4240, PT ;
+      [B------:R-:W-:Y:S02]         /*0140*/                   FFMA R30, R22, R26, R30 ;
+      [B------:R-:W-:Y:S01]         /*0150*/                   FFMA R31, R23, R27, R31 ;
+      [B------:R-:W-:-:S01]        /*0110*/                   FFMA R28, R20, R24, R28 ;
+      [B------:R-:W-:-:S01]        /*0120*/                   FFMA R29, R21, R25, R29 ;
+      [B------:R-:W-:-:S01]        /*0130*/                   FFMA R30, R22, R26, R30 ;
+      [B------:R-:W-:-:S01]        /*0140*/                   FFMA R31, R23, R27, R31 ;
+      
+      /* --- 2세트 (복붙) --- */
+      [B------:R-:W-:-:S01]        /*0110*/                   FFMA R28, R20, R24, R28 ;
+      [B------:R-:W-:-:S01]        /*0120*/                   FFMA R29, R21, R25, R29 ;
+      [B------:R-:W-:-:S01]        /*0130*/                   FFMA R30, R22, R26, R30 ;
+      [B------:R-:W-:-:S01]        /*0140*/                   FFMA R31, R23, R27, R31 ;
+      
+      /* --- 3세트 (복붙) --- */
+      [B------:R-:W-:-:S01]        /*0110*/                   FFMA R28, R20, R24, R28 ;
+      [B------:R-:W-:-:S01]        /*0120*/                   FFMA R29, R21, R25, R29 ;
+      [B------:R-:W-:-:S01]        /*0130*/                   FFMA R30, R22, R26, R30 ;
+      [B------:R-:W-:-:S09]        /*0140*/                   FFMA R31, R23, R27, R31 ;
+      [B------:R-:W-:-:S05]         /*0160*/               @P0 BRA `(.L_x_0) ;
+      [B------:R-:W-:Y:S04]         /*0170*/                   FADD R2, R2, R13 ;
+      [B------:R-:W-:Y:S04]         /*0180*/                   FADD R3, R3, R2 ;
+      [B------:R-:W-:-:S01]         /*0190*/                   FADD R3, R14, R3 ;
+      [B------:R-:W0:-:S03]         /*01a0*/                   S2R R2, SR_CTAID.X ;
+      [B------:R-:W-:-:S01]         /*01b0*/                   FADD R4, R4, R3 ;
+      [B------:R-:W-:Y:S03]         /*01c0*/                   MOV R3, 0x4 ;
+      [B------:R-:W-:Y:S04]         /*01d0*/                   FADD R5, R5, R4 ;
+      [B------:R-:W-:Y:S04]         /*01e0*/                   FADD R5, R12, R5 ;
+      [B------:R-:W-:Y:S04]         /*01f0*/                   FADD R6, R6, R5 ;
+      [B------:R-:W-:Y:S04]         /*0200*/                   FADD R7, R7, R6 ;
+      [B------:R-:W-:-:S02]         /*0210*/                   FADD R7, R10, R7 ;
+      [B0-----:R-:W-:-:S02]         /*0220*/                   IMAD R2, R2, c[0x0][0x0], R15 ;
+      [B------:R-:W-:-:S02]         /*0230*/                   FADD R8, R8, R7 ;
+      [B------:R-:W-:Y:S04]         /*0240*/                   IMAD.WIDE.U32 R2, R2, R3, c[0x0][0x160] ;
+      [B------:R-:W-:Y:S08]         /*0250*/                   FADD R9, R9, R8 ;
+      [B------:R-:W-:-:S01]         /*0260*/                   STG.E.SYS [R2], R9 ;
+      [B------:R-:W-:-:S05]         /*0270*/                   EXIT ;
+  .L_x_1:
+      [B------:R-:W-:Y:S00]         /*0280*/                   BRA `(.L_x_1);
+      [B------:R-:W-:Y:S00]         /*0290*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02a0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02b0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02c0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02d0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02e0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02f0*/                   NOP;
+  .L_x_4:
+  
+  
+
+// --------------------- .text._Z18no_conflict_kernelPf   --------------------------
+	.section	.text._Z18no_conflict_kernelPf,"ax",@progbits
+	.__section_name         0xda 	// offset in .shstrtab
+	.__section_type         SHT_PROGBITS
+	.__section_flags        0x6
+	.__section_addr         0x0
+	.__section_offset       0xd80 	// maybe updated by assembler
+	.__section_size         0x300 	// maybe updated by assembler
+	.__section_link         3
+	.__section_info         0x12000009
+	.__section_entsize      0
+	.align                128 	// equivalent to set sh_addralign
+  	.sectioninfo	@"SHI_REGISTERS=40"
+  	.align	128
+          .global         _Z18no_conflict_kernelPf
+          .type           _Z18no_conflict_kernelPf,@function
+          .size           _Z18no_conflict_kernelPf,(.L_x_5 - _Z18no_conflict_kernelPf)
+          .other          _Z18no_conflict_kernelPf,@"STO_CUDA_ENTRY STV_DEFAULT"
+  _Z18no_conflict_kernelPf:
+  .text._Z18no_conflict_kernelPf:
+      [B------:R-:W-:-:S02]         /*0000*/                   MOV R1, c[0x0][0x28] ;
+  .CUASM_OFFSET_LABEL._Z18no_conflict_kernelPf.EIATTR_INT_WARP_WIDE_INSTR_OFFSETS.#:
+      [B------:R-:W-:-:S01]         /*0010*/              @!PT SHFL.IDX PT, RZ, RZ, RZ, RZ ;
+      [B------:R-:W0:-:S01]         /*0020*/                   S2R R15, SR_TID.X ;
+      [B------:R-:W-:-:S01]         /*0030*/                   CS2R R10, SRZ ;
+      [B------:R-:W-:-:S01]         /*0040*/                   CS2R R12, SRZ ;
+      [B------:R-:W-:-:S01]         /*0050*/                   MOV R14, RZ ;
+      [B0-----:R-:W0:-:S02]         /*0060*/                   I2F.U32 R0, R15 ;
+      [B0-----:R-:W-:-:S02]         /*0070*/                   FMUL R2, R0.reuse, 0.0010000000474974513054 ;
+      [B------:R-:W-:-:S02]         /*0080*/                   FMUL R3, R0.reuse, 0.0020000000949949026108 ;
+      [B------:R-:W-:Y:S02]         /*0090*/                   FMUL R4, R0, 0.0030000000260770320892 ;
+      [B------:R-:W-:-:S02]         /*00a0*/                   FMUL R5, R0.reuse, 0.0040000001899898052216 ;
+      [B------:R-:W-:-:S02]         /*00b0*/                   FMUL R6, R0.reuse, 0.0049999998882412910461 ;
+      [B------:R-:W-:-:S02]         /*00c0*/                   FMUL R7, R0.reuse, 0.0060000000521540641785 ;
+      [B------:R-:W-:-:S02]         /*00d0*/                   FMUL R8, R0.reuse, 0.0070000002160668373108 ;
+      [B------:R-:W-:-:S02]         /*00e0*/                   FMUL R9, R0, 0.0080000003799796104431 ;
+  .L_x_2:
+  .CUASM_OFFSET_LABEL._Z18no_conflict_kernelPf.EIATTR_INT_WARP_WIDE_INSTR_OFFSETS.#:
+      [B------:R-:W-:-:S01]         /*00f0*/              @!PT SHFL.IDX PT, RZ, RZ, RZ, RZ ;
+      [B------:R-:W-:-:S01]         /*0100*/                   IADD3 R11, R11, 0x1, RZ ;
+      [B------:R-:W-:-:S01]         /*0110*/                   FFMA R28, R21, R22, R28 ;
+      [B------:R-:W-:-:S01]         /*0120*/                   FFMA R29, R22, R23, R29 ;
+      [B------:R-:W-:-:S01]         /*0130*/                   ISETP.NE.AND P0, PT, R11, 0xf4240, PT ;
+      [B------:R-:W-:Y:S01]         /*0140*/                   FFMA R30, R23, R24, R30 ;
+      [B------:R-:W-:Y:S01]         /*0150*/                   FFMA R31, R20, R21, R31 ;
+      [B------:R-:W-:-:S01]        /*0110*/                   FFMA R28, R21, R22, R28 ;
+      [B------:R-:W-:-:S01]        /*0120*/                   FFMA R29, R22, R23, R29 ;
+      [B------:R-:W-:-:S01]        /*0130*/                   FFMA R30, R23, R24, R30 ;
+      [B------:R-:W-:-:S01]        /*0140*/                   FFMA R31, R20, R21, R31 ;
+   
+      [B------:R-:W-:-:S01]        /*0110*/                   FFMA R28, R21, R22, R28 ;
+      [B------:R-:W-:-:S01]        /*0120*/                   FFMA R29, R22, R23, R29 ;
+      [B------:R-:W-:-:S01]        /*0130*/                   FFMA R30, R23, R24, R30 ;
+      [B------:R-:W-:-:S01]        /*0130*/                   ISETP.NE.AND P0, PT, R11, 0xf4240, PT ;
+      [B------:R-:W-:Y:S09]        /*0150*/                   FFMA R31, R20, R21, R31 ;
+      [B------:R-:W-:-:S05]         /*0160*/               @P0 BRA `(.L_x_2) ;
+      [B------:R-:W-:Y:S04]         /*0170*/                   FADD R2, R2, R13 ;
+      [B------:R-:W-:Y:S04]         /*0180*/                   FADD R3, R3, R2 ;
+      [B------:R-:W-:-:S01]         /*0190*/                   FADD R3, R14, R3 ;
+      [B------:R-:W0:-:S03]         /*01a0*/                   S2R R2, SR_CTAID.X ;
+      [B------:R-:W-:-:S01]         /*01b0*/                   FADD R4, R4, R3 ;
+      [B------:R-:W-:Y:S03]         /*01c0*/                   MOV R3, 0x4 ;
+      [B------:R-:W-:Y:S04]         /*01d0*/                   FADD R5, R5, R4 ;
+      [B------:R-:W-:Y:S04]         /*01e0*/                   FADD R5, R12, R5 ;
+      [B------:R-:W-:Y:S04]         /*01f0*/                   FADD R6, R6, R5 ;
+      [B------:R-:W-:Y:S04]         /*0200*/                   FADD R7, R7, R6 ;
+      [B------:R-:W-:-:S02]         /*0210*/                   FADD R7, R10, R7 ;
+      [B0-----:R-:W-:-:S02]         /*0220*/                   IMAD R2, R2, c[0x0][0x0], R15 ;
+      [B------:R-:W-:-:S02]         /*0230*/                   FADD R8, R8, R7 ;
+      [B------:R-:W-:Y:S04]         /*0240*/                   IMAD.WIDE.U32 R2, R2, R3, c[0x0][0x160] ;
+      [B------:R-:W-:Y:S08]         /*0250*/                   FADD R9, R9, R8 ;
+      [B------:R-:W-:-:S01]         /*0260*/                   STG.E.SYS [R2], R9 ;
+      [B------:R-:W-:-:S05]         /*0270*/                   EXIT ;
+  .L_x_3:
+      [B------:R-:W-:Y:S00]         /*0280*/                   BRA `(.L_x_3);
+      [B------:R-:W-:Y:S00]         /*0290*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02a0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02b0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02c0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02d0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02e0*/                   NOP;
+      [B------:R-:W-:Y:S00]         /*02f0*/                   NOP;
+  .L_x_5:
+
+  //-------------------------------------------------
+  //---------------- END of sections ----------------
+  //-------------------------------------------------
+
+
+// Program segment PT_PHDR, 5 
+  .__segment  "PT_PHDR", 5 
+  .__segment_offset  0x1440   		// maybe updated by assembler 
+  .__segment_vaddr   0x0   		// Seems always 0? 
+  .__segment_paddr   0x0   		// ??? 
+  .__segment_filesz  0xa8   		// file size, maybe updated by assembler 
+  .__segment_memsz   0xa8   		// file size + nobits sections, maybe updated by assembler 
+  .__segment_align     8   		//  
+
+// Program segment PT_LOAD, 5 
+  .__segment  "PT_LOAD", 5 
+  .__segment_offset  0x740   		// maybe updated by assembler 
+  .__segment_vaddr   0x0   		// Seems always 0? 
+  .__segment_paddr   0x0   		// ??? 
+  .__segment_filesz  0x940   		// file size, maybe updated by assembler 
+  .__segment_memsz   0x940   		// file size + nobits sections, maybe updated by assembler 
+  .__segment_align     8   		//  
+  .__segment_startsection    ".nv.constant0._Z15conflict_kernelPf"  		// first section in this segment 
+  .__segment_endsection      ".text._Z18no_conflict_kernelPf"  		// last  section in this segment 
+
+// Program segment PT_LOAD, 5 
+  .__segment  "PT_LOAD", 5 
+  .__segment_offset  0x1440   		// maybe updated by assembler 
+  .__segment_vaddr   0x0   		// Seems always 0? 
+  .__segment_paddr   0x0   		// ??? 
+  .__segment_filesz  0xa8   		// file size, maybe updated by assembler 
+  .__segment_memsz   0xa8   		// file size + nobits sections, maybe updated by assembler 
+  .__segment_align     8   		//  
+  .__segment_startsection    "@PROGRAM_HEADER"  		// first section in this segment 
+  .__segment_endsection      "@PROGRAM_HEADER"  		// last  section in this segment 
+
+
+  //-------------------------------------------------
+  //---------------- END of segments ----------------
+  //-------------------------------------------------
+
+
