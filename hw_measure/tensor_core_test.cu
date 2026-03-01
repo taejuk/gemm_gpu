@@ -4,7 +4,7 @@
 
 using namespace nvcuda;
 
-const int MATRIX_SIZE = 4096;
+const int MATRIX_SIZE = 8192;
 const int M = MATRIX_SIZE;
 const int N = MATRIX_SIZE;
 const int K = MATRIX_SIZE;
@@ -91,6 +91,8 @@ int main() {
 
     cudaEventRecord(start);
     wmmaGemm<<<blocksWMMA, threadsWMMA>>>(d_A, d_B, d_C, M, N, K);
+    err = cudaGetLastError();
+    if(err != cudaSuccess) std::cout << cudaGetErrorString(err) << std::endl;
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
     float wmmaTime = 0;
